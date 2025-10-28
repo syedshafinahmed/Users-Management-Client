@@ -1,7 +1,8 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 
 const Users = ({ usersPromise }) => {
-  const users = use(usersPromise);
+  const initialUsers = use(usersPromise);
+  const [users, setUsers] = useState(initialUsers);
   console.log(users);
   const handleAddUser = (e) => {
     e.preventDefault();
@@ -12,6 +13,10 @@ const Users = ({ usersPromise }) => {
     const newUser = { name, email };
 
     //send data to server
+    // 1. method
+    // 2. headers 
+    // 3. body
+
     fetch('http://localhost:3000/users', {
       method: 'POST',
       headers: {
@@ -22,6 +27,9 @@ const Users = ({ usersPromise }) => {
       .then(res => res.json())
       .then(data => {
         console.log('after post', data);
+        const newUsers = [...users, data];
+        setUsers(newUsers);
+        e.target.reset();
       })
 
   }
